@@ -24,11 +24,11 @@ const char* mqtt_topic_pub = "esp32/sim800/message";
 const char* mqtt_topic_sub = "esp32/sim800/control";
 
 void mqttCallback(char* topic, byte* payload, unsigned int len) {
-  Serial.print("Message received on topic: ");
+  Serial.println("Message received on topic: ");
   Serial.println(topic);
-  Serial.print("Payload: ");
+  Serial.println("Payload: ");
   for (int i = 0; i < len; i++) {
-    Serial.print((char)payload[i]);
+    Serial.println((char)payload[i]);
   }
   Serial.println();
 }
@@ -44,7 +44,7 @@ void setup() {
   modem.restart();
   delay(1000);
 
-  Serial.print("Connecting to GPRS...");
+  Serial.println("Connecting to GPRS...");
   if (!modem.gprsConnect(apn, user, pass)) {
     Serial.println(" fail");
     while (true);
@@ -61,13 +61,13 @@ void setup() {
 
 void connectMQTT() {
   while (!mqtt.connected()) {
-    Serial.print("Connecting to MQTT...");
+    Serial.println("Connecting to MQTT...");
     if (mqtt.connect("ESP32Client_SIM")) {
       Serial.println("connected");
       mqtt.subscribe(mqtt_topic_sub); // Subscribe เพื่อรับคำสั่ง
     } else {
-      Serial.print(" failed, rc=");
-      Serial.print(mqtt.state());
+      Serial.println(" failed, rc=");
+      Serial.println(mqtt.state());
       Serial.println(" try again in 5 seconds");
       delay(5000);
     }
