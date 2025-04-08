@@ -36,7 +36,7 @@ void sendHTTP() {
 
   sendAT("AT+HTTPINIT");
   sendAT("AT+HTTPPARA=\"CID\",1");
-  sendAT("AT+HTTPPARA=\"URL\",\"http://example.com/test\"");  // เปลี่ยน URL
+  sendAT("AT+HTTPPARA=\"URL\",\"http://9465-2001-fb1-14f-9d4a-35a9-5380-c80a-34fa.ngrok-free.app/webhook\"");  // เปลี่ยน URL
   sendAT("AT+HTTPPARA=\"CONTENT\",\"application/json\"");
   sendAT("AT+HTTPDATA=" + String(payload.length()) + ",10000");
   delay(500);
