@@ -1,9 +1,3 @@
-#include <TinyGsm.h>
-#include <TinyGsmClient.h>
-#include <Wire.h>
-// #include <Adafruit_Sensor.h>
-// #include <Adafruit_BME280.h>
-
 // Your GPRS credentials (leave empty, if not needed)
 const char apn[]      = "internet"; // APN (example: internet.vodafone.pt) use https://wiki.apnchanger.org
 const char gprsUser[] = ""; // GPRS User
@@ -14,7 +8,7 @@ const char simPIN[]   = "";
 
 // Server details
 // The server variable can be just a domain name or it can have a subdomain. It depends on the service you are using
-const char server[] = "f49c-2001-fb1-14f-9d4a-58b3-cdef-672e-18f8.ngrok-free.app"; // domain name: example.com, maker.ifttt.com, etc
+const char server[] = "http://46b1-2001-fb1-14f-9d4a-58b3-cdef-672e-18f8.ngrok-free.app"; // domain name: example.com, maker.ifttt.com, etc
 const char resource[] = "/webhook";         // resource path, for example: /post-data.php
 const int  port = 80;                             // server port number
 
@@ -45,6 +39,12 @@ String apiKeyValue = "tPmAT5Ab3j7F9";
 
 // Define the serial console for debug prints, if needed
 //#define DUMP_AT_COMMANDS
+
+#include <TinyGSM.h>
+#include <TinyGsmClient.h>
+#include <Wire.h>
+// #include <Adafruit_Sensor.h>
+// #include <Adafruit_BME280.h>
 
 #ifdef DUMP_AT_COMMANDS
   #include <StreamDebugger.h>
@@ -159,7 +159,9 @@ void loop() {
       // String httpRequestData = "api_key=tPmAT5Ab3j7F9&value1=24.75&value2=49.54&value3=1005.14";
 
       SerialMon.println("HTTP request data: " + httpRequestData);
-      SerialMon.print("HTTP POST request to: " + server + resource);
+      SerialMon.print("HTTP POST request to: ");
+      SerialMon.print(server);
+      SerialMon.println(resource);
       SerialMon.println("Sending HTTP POST request...");
     
       client.print(String("POST ") + resource + " HTTP/1.1\r\n");
