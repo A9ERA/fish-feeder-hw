@@ -1,13 +1,8 @@
-/*
-  Rui Santos
-  Complete project details at https://RandomNerdTutorials.com/esp32-sim800l-publish-data-to-cloud/
-  
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files.
-  
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-*/
+#include <TinyGsm.h>
+#include <TinyGsmClient.h>
+#include <Wire.h>
+// #include <Adafruit_Sensor.h>
+// #include <Adafruit_BME280.h>
 
 // Your GPRS credentials (leave empty, if not needed)
 const char apn[]      = "internet"; // APN (example: internet.vodafone.pt) use https://wiki.apnchanger.org
@@ -59,10 +54,6 @@ String apiKeyValue = "tPmAT5Ab3j7F9";
   TinyGsm modem(SerialAT);
 #endif
 
-#include <Wire.h>
-#include <TinyGsmClient.h>
-// #include <Adafruit_Sensor.h>
-// #include <Adafruit_BME280.h>
 
 // I2C for SIM800 (to keep it running when powered from battery)
 TwoWire I2CPower = TwoWire(0);
