@@ -50,15 +50,15 @@ String apiKeyValue = "tPmAT5Ab3j7F9";
 
 #include <Wire.h>
 #include <TinyGsmClient.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_BME280.h>
+// #include <Adafruit_Sensor.h>
+// #include <Adafruit_BME280.h>
 
 // I2C for SIM800 (to keep it running when powered from battery)
 TwoWire I2CPower = TwoWire(0);
 
 // I2C for BME280 sensor
 TwoWire I2CBME = TwoWire(1);
-Adafruit_BME280 bme; 
+// Adafruit_BME280 bme; 
 
 // TinyGSM Client for Internet connection
 TinyGsmClient client(modem);
