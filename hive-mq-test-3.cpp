@@ -48,6 +48,17 @@ String apiKeyValue = "tPmAT5Ab3j7F9";
 #define TINY_GSM_MODEM_SIM800      // Modem is SIM800
 #define TINY_GSM_RX_BUFFER   1024  // Set RX buffer to 1Kb
 
+// Define the serial console for debug prints, if needed
+//#define DUMP_AT_COMMANDS
+
+#ifdef DUMP_AT_COMMANDS
+  #include <StreamDebugger.h>
+  StreamDebugger debugger(SerialAT, SerialMon);
+  TinyGsm modem(debugger);
+#else
+  TinyGsm modem(SerialAT);
+#endif
+
 #include <Wire.h>
 #include <TinyGsmClient.h>
 // #include <Adafruit_Sensor.h>
