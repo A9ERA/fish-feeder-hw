@@ -19,8 +19,8 @@ const char simPIN[]   = "";
 
 // Server details
 // The server variable can be just a domain name or it can have a subdomain. It depends on the service you are using
-const char server[] = "example.com"; // domain name: example.com, maker.ifttt.com, etc
-const char resource[] = "/post-data.php";         // resource path, for example: /post-data.php
+const char server[] = "f49c-2001-fb1-14f-9d4a-58b3-cdef-672e-18f8.ngrok-free.app"; // domain name: example.com, maker.ifttt.com, etc
+const char resource[] = "/webhook";         // resource path, for example: /post-data.php
 const int  port = 80;                             // server port number
 
 // Keep this API Key value to be compatible with the PHP code provided in the project page. 
@@ -48,20 +48,8 @@ String apiKeyValue = "tPmAT5Ab3j7F9";
 #define TINY_GSM_MODEM_SIM800      // Modem is SIM800
 #define TINY_GSM_RX_BUFFER   1024  // Set RX buffer to 1Kb
 
-// Define the serial console for debug prints, if needed
-//#define DUMP_AT_COMMANDS
-
 #include <Wire.h>
 #include <TinyGsmClient.h>
-
-#ifdef DUMP_AT_COMMANDS
-  #include <StreamDebugger.h>
-  StreamDebugger debugger(SerialAT, SerialMon);
-  TinyGsm modem(debugger);
-#else
-  TinyGsm modem(SerialAT);
-#endif
-
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
 
@@ -76,7 +64,7 @@ Adafruit_BME280 bme;
 TinyGsmClient client(modem);
 
 #define uS_TO_S_FACTOR 1000000UL   /* Conversion factor for micro seconds to seconds */
-#define TIME_TO_SLEEP  3600        /* Time ESP32 will go to sleep (in seconds) 3600 seconds = 1 hour */
+#define TIME_TO_SLEEP  5        /* Time ESP32 will go to sleep (in seconds) 5 seconds */
 
 #define IP5306_ADDR          0x75
 #define IP5306_REG_SYS_CTL0  0x00
@@ -98,7 +86,7 @@ void setup() {
 
   // Start I2C communication
   I2CPower.begin(I2C_SDA, I2C_SCL, 400000);
-  I2CBME.begin(I2C_SDA_2, I2C_SCL_2, 400000);
+  // I2CBME.begin(I2C_SDA_2, I2C_SCL_2, 400000);
 
   // Keep power when running from battery
   bool isOk = setPowerBoostKeepOn(1);
@@ -128,10 +116,10 @@ void setup() {
   }
   
   // You might need to change the BME280 I2C address, in our case it's 0x76
-  if (!bme.begin(0x76, &I2CBME)) {
-    Serial.println("Could not find a valid BME280 sensor, check wiring!");
-    while (1);
-  }
+  // if (!bme.begin(0x76, &I2CBME)) {
+  //   Serial.println("Could not find a valid BME280 sensor, check wiring!");
+  //   while (1);
+  // }
 
   // Configure the wake up source as timer wake up  
   esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
@@ -156,16 +144,21 @@ void loop() {
     
       // Making an HTTP POST request
       SerialMon.println("Performing HTTP POST request...");
+      String httpRequestData = "{\"message\":\"LABUBU MEGA KILL\"}";
       // Prepare your HTTP POST request data (Temperature in Celsius degrees)
-      String httpRequestData = "api_key=" + apiKeyValue + "&value1=" + String(bme.readTemperature())
-                             + "&value2=" + String(bme.readHumidity()) + "&value3=" + String(bme.readPressure()/100.0F) + "";
+      // String httpRequestData = "api_key=" + apiKeyValue + "&value1=" + String(bme.readTemperature())
+      //                        + "&value2=" + String(bme.readHumidity()) + "&value3=" + String(bme.readPressure()/100.0F) + "";
       // Prepare your HTTP POST request data (Temperature in Fahrenheit degrees)
       //String httpRequestData = "api_key=" + apiKeyValue + "&value1=" + String(1.8 * bme.readTemperature() + 32)
       //                       + "&value2=" + String(bme.readHumidity()) + "&value3=" + String(bme.readPressure()/100.0F) + "";
           
       // You can comment the httpRequestData variable above
       // then, use the httpRequestData variable below (for testing purposes without the BME280 sensor)
-      //String httpRequestData = "api_key=tPmAT5Ab3j7F9&value1=24.75&value2=49.54&value3=1005.14";
+      // String httpRequestData = "api_key=tPmAT5Ab3j7F9&value1=24.75&value2=49.54&value3=1005.14";
+
+      SerialMon.println("HTTP request data: " + httpRequestData);
+      SerialMon.print("HTTP POST request to: " + server + resource);
+      SerialMon.println("Sending HTTP POST request...");
     
       client.print(String("POST ") + resource + " HTTP/1.1\r\n");
       client.print(String("Host: ") + server + "\r\n");
