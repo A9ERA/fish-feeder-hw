@@ -26,11 +26,9 @@ const char gprsUser[] = "";
 const char gprsPass[] = "";
 const char simPIN[]   = "";
 
-// MQTT Settings
-const char* broker = "bb158e5dcd76426d9cab5ae648dcfbaa.s1.eu.hivemq.cloud";
+// MQTT Settings (HiveMQ Public Broker)
+const char* broker = "broker.hivemq.com";
 const int mqttPort = 1883;
-const char* mqttUser = "labubu";
-const char* mqttPassword = "N4j7vttb@143713";
 
 // Topics
 const char* topicSub1 = "labubu/attack";
@@ -65,7 +63,7 @@ void mqttCallback(char* topic, byte* payload, unsigned int length) {
 void mqttConnect() {
   while (!mqtt.connected()) {
     SerialMon.print("Connecting to MQTT...");
-    if (mqtt.connect("ESP32Client", mqttUser, mqttPassword)) {
+    if (mqtt.connect("ESP32Client")) {
       SerialMon.println("connected");
       mqtt.subscribe(topicSub1);
       mqtt.subscribe(topicSub2);
