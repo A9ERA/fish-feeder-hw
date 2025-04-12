@@ -28,7 +28,7 @@ const char simPIN[]   = "";
 
 // MQTT Settings
 const char* broker = "bb158e5dcd76426d9cab5ae648dcfbaa.s1.eu.hivemq.cloud";
-const int mqttPort = 8883;
+const int mqttPort = 1883;
 const char* mqttUser = "labubu";
 const char* mqttPassword = "N4j7vttb@143713";
 
@@ -38,7 +38,7 @@ const char* topicSub2 = "labubu/back";
 const char* topicPub = "labubu/laugh";
 
 TinyGsm modem(SerialAT);
-TinyGsmClientSecure client(modem);
+TinyGsmClient client(modem);
 PubSubClient mqtt(client);
 
 TwoWire I2CPower = TwoWire(0);
@@ -108,7 +108,6 @@ void setup() {
   }
   SerialMon.println("GPRS connected");
 
-  client.setCACert(nullptr); // Skip certificate validation
   mqtt.setServer(broker, mqttPort);
   mqtt.setCallback(mqttCallback);
 }
