@@ -63,7 +63,8 @@ void mqttCallback(char* topic, byte* payload, unsigned int length) {
 void mqttConnect() {
   while (!mqtt.connected()) {
     SerialMon.print("Connecting to MQTT...");
-    if (mqtt.connect("ESP32Client")) {
+    String clientId = "ESP32Client-" + String(random(0xffff), HEX);
+    if (mqtt.connect(clientId.c_str())) {
       SerialMon.println("connected");
       mqtt.subscribe(topicSub1);
       mqtt.subscribe(topicSub2);
