@@ -1,8 +1,8 @@
 #define BLYNK_PRINT Serial
 #define BLYNK_TEMPLATE_ID "TMPL6fL12pH69"
 #define BLYNK_TEMPLATE_NAME "Quickstart Device"
-
-// เลือกเวอร์ชันของ SIM800L ที่ใช้งาน
+ // Default heartbeat interval for GSM is 60
+ // #define BLYNK_HEARTBEAT 30
 #define SIM800L_IP5306_VERSION_20200811
 #define TINY_GSM_MODEM_SIM800
 
@@ -19,15 +19,14 @@
 DHT dht(DHTPIN, DHTTYPE);
 
 // กำหนดค่า Blynk และ SIM
-const char auth[] = "U8Be_VVoGLdzkvRZAzPAWCloOvIag_nN";
-const char apn[]  = "internet";
+const char apn[] = "internet";
 const char gprsUser[] = "";
 const char gprsPass[] = "";
 const char GSM_PIN[] = "";
+const char auth[] = "U8Be_VVoGLdzkvRZAzPAWCloOvIag_nN";
 
 TinyGsm modem(SerialAT);
 TinyGsmClient client(modem);
-BlynkTimer timer;
 
 // อ่านและส่งค่าเซนเซอร์
 void sendDHT()
@@ -55,8 +54,6 @@ void setup()
   SerialMon.begin(115200);
   delay(10);
 
-  dht.begin(); // เริ่มต้นเซนเซอร์ DHT
-
   setupModem();
 
   SerialMon.println("Wait...");
@@ -72,15 +69,13 @@ void setup()
   SerialMon.print("Modem Info: ");
   SerialMon.println(modemInfo);
 
-  // เริ่มเชื่อมต่อ Blynk ผ่าน GPRS
-  Blynk.begin(auth, modem, apn, gprsUser, gprsPass);
-
-  // ตั้งเวลาอ่านค่า DHT ทุก 5 วินาที
-  timer.setInterval(5000L, sendDHT);
+  dht.begin(); // เริ่มต้นเซนเซอร์ DHT
+  Blynk.begin(auth, modem, apn, gprsUser, gprsPass); // เริ่มเชื่อมต่อ Blynk ผ่าน GPRS
 }
 
 void loop()
 {
   Blynk.run();
-  timer.run();
+  sendDHT();
+  delay(5000);
 }
