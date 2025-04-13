@@ -1,5 +1,6 @@
 #define BLYNK_PRINT Serial
-
+#define BLYNK_TEMPLATE_ID "TMPL6fL12pH69"
+#define BLYNK_TEMPLATE_NAME "Quickstart Device"
  // Default heartbeat interval for GSM is 60
  // #define BLYNK_HEARTBEAT 30
  
