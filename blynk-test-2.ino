@@ -14,6 +14,8 @@
 // ตั้ง Serial และ DHT
 #define SerialMon Serial
 #define SerialAT Serial1
+#define TINY_GSM_DEBUG SerialMon
+#define GSM_PIN ""
 #define DHTPIN 26
 #define DHTTYPE DHT22
 DHT dht(DHTPIN, DHTTYPE);
@@ -22,7 +24,6 @@ DHT dht(DHTPIN, DHTTYPE);
 const char apn[] = "internet";
 const char gprsUser[] = "";
 const char gprsPass[] = "";
-const char GSM_PIN[] = "";
 const char auth[] = "U8Be_VVoGLdzkvRZAzPAWCloOvIag_nN";
 
 TinyGsm modem(SerialAT);

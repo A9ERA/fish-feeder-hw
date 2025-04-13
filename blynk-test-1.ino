@@ -29,10 +29,10 @@
  //#define DUMP_AT_COMMANDS
  
  // Define the serial console for debug prints, if needed
- #define TINY_GSM_DEBUG SerialMon
+#define TINY_GSM_DEBUG SerialMon
  
  // set GSM PIN, if any
- #define GSM_PIN ""
+#define GSM_PIN ""
  
  // Your GPRS credentials, if any
 const char apn[] = "internet";
