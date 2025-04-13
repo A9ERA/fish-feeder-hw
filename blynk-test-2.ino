@@ -3,6 +3,12 @@
 #define BLYNK_TEMPLATE_NAME "Quickstart Device"
  // Default heartbeat interval for GSM is 60
  // #define BLYNK_HEARTBEAT 30
+ 
+ // Please select the corresponding model
+ 
+ // #define SIM800L_IP5306_VERSION_20190610
+ // #define SIM800L_AXP192_VERSION_20200327
+ // #define SIM800C_AXP192_VERSION_20200609
 #define SIM800L_IP5306_VERSION_20200811
 #define TINY_GSM_MODEM_SIM800
 
@@ -11,22 +17,41 @@
 #include <BlynkSimpleTinyGSM.h>
 #include <DHT.h>
 
-// ตั้ง Serial และ DHT
+ // Select your modem:
+ 
+ // Set serial for debug console (to the Serial Monitor, default speed 115200)
 #define SerialMon Serial
+ 
+ // Set serial for AT commands (to the module)
+ // Use Hardware Serial on Mega, Leonardo, Micro
 #define SerialAT Serial1
+ 
+ // See all AT commands, if wanted
+ //#define DUMP_AT_COMMANDS
+ 
+ // Define the serial console for debug prints, if needed
 #define TINY_GSM_DEBUG SerialMon
+ 
+ // set GSM PIN, if any
 #define GSM_PIN ""
 #define DHTPIN 26
 #define DHTTYPE DHT22
 DHT dht(DHTPIN, DHTTYPE);
 
-// กำหนดค่า Blynk และ SIM
+ // Your GPRS credentials, if any
 const char apn[] = "internet";
 const char gprsUser[] = "";
 const char gprsPass[] = "";
 const char auth[] = "U8Be_VVoGLdzkvRZAzPAWCloOvIag_nN";
 
+
+#ifdef DUMP_AT_COMMANDS
+#include <StreamDebugger.h>
+StreamDebugger debugger(SerialAT, SerialMon);
+TinyGsm modem(debugger);
+#else
 TinyGsm modem(SerialAT);
+#endif
 TinyGsmClient client(modem);
 
 // อ่านและส่งค่าเซนเซอร์
@@ -52,6 +77,7 @@ void sendDHT()
 
 void setup()
 {
+ // Set console baud rate
   SerialMon.begin(115200);
   delay(10);
 
@@ -59,12 +85,13 @@ void setup()
 
   SerialMon.println("Wait...");
 
-  // เริ่มต้นการสื่อสารกับ SIM800L
+  // Set GSM module baud rate and UART pins
   SerialAT.begin(115200, SERIAL_8N1, MODEM_RX, MODEM_TX);
   delay(6000);
 
   SerialMon.println("Initializing modem...");
-  modem.restart(); // หรือใช้ modem.init();
+  modem.restart();
+    // modem.init();
 
   String modemInfo = modem.getModemInfo();
   SerialMon.print("Modem Info: ");
