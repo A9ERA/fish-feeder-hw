@@ -40,6 +40,12 @@ const char gprsUser[] = "";
 const char gprsPass[] = "";
 const char auth[] = "U8Be_VVoGLdzkvRZAzPAWCloOvIag_nN";
 
+
+#define R_EN   12
+#define L_EN   14
+#define R_PWM  25
+#define L_PWM  15
+
 #ifdef DUMP_AT_COMMANDS
 #include <StreamDebugger.h>
 StreamDebugger debugger(SerialAT, SerialMon);
@@ -70,6 +76,12 @@ void setup()
   String modemInfo = modem.getModemInfo();
   SerialMon.print("Modem Info: ");
   SerialMon.println(modemInfo);
+
+
+  pinMode(R_EN, OUTPUT);
+  pinMode(L_EN, OUTPUT);
+  pinMode(R_PWM, OUTPUT);
+  pinMode(L_PWM, OUTPUT);
 
   // Unlock your SIM card with a PIN
   // modem.simUnlock("1234");
