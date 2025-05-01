@@ -83,6 +83,13 @@ void sendToBlynk()
   Blynk.virtualWrite(V6, "Labubu Mega Kill");
 }
 
+// Receive data from Blynk app
+BLYNK_WRITE(V7)
+{
+  int value = param.asInt();  // Get the value from the Blynk app (0 or 1)
+  SerialMon.println("Motor: " + String(value));
+}
+
 void loop()
 {
   while (true) {
