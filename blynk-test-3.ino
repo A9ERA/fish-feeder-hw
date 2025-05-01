@@ -88,6 +88,33 @@ BLYNK_WRITE(V7)
 {
   int value = param.asInt();  // Get the value from the Blynk app (0 or 1)
   SerialMon.println("Motor: " + String(value));
+  switch (value) {
+  {
+  case 0:
+    SerialMon.println("▶ มอเตอร์ลง 2 วินาที");
+    runMotor(false); delay(2000); stopMotor();
+    break;
+  case 1:
+    SerialMon.println("▶ มอเตอร์ขึ้น 2 วินาที");
+    runMotor(true); delay(2000); stopMotor();
+    break;
+  default:
+    break;
+  }
+}
+
+void runMotor(bool up) {
+  digitalWrite(R_EN, up);
+  digitalWrite(L_EN, !up);
+  analogWrite(R_PWM, up ? 200 : 0);
+  analogWrite(L_PWM, up ? 0 : 200);
+}
+
+void stopMotor() {
+  digitalWrite(R_EN, LOW);
+  digitalWrite(L_EN, LOW);
+  analogWrite(R_PWM, 0);
+  analogWrite(L_PWM, 0);
 }
 
 void loop()
